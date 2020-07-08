@@ -12,10 +12,6 @@
         <observer name="test_name" instance="Vexpro\CompraPontos\Observer\Productsaveafter" />
     </event>
 
-    <event name="catalog_controller_product_view">
-        <observer name="showproductdata" instance="Vexpro\CompraPontos\Observer\CreateChange" />
-    </event>     
-
     <event name="sales_order_save_after">
         <observer name="showproductdata" instance="Vexpro\CompraPontos\Observer\EnviaNotaFiscal" />
     </event>
