@@ -1,0 +1,13 @@
+<?php
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+    $_product = $block->getProduct();
+?>
+<div class="">
+    <?php
+    $attribute = $_product->getResource()->getAttribute('pontos');                                
+    if ($attribute) 
+    { 
+     $attr_value = $attribute ->getFrontend()->getValue($_product); ?>   
+     <?= $block->escapeHtml(__('Pontos.')). $attr_value ?>
+    <?php } ?>  
+</div>

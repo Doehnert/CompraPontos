@@ -1,0 +1,71 @@
+<style>
+
+</style>
+
+<!--Use 'stepCode' as id attribute-->
+<li data-bind="fadeVisible: isVisible, attr: { id: stepCode }">
+<div class="step-title" data-bind="i18n: stepTitle" data-role="title"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content">
+
+         <div class="table-responsive">
+            <table class="table" style="table-layout: fixed;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="background-color: #21409A; color: white; font-size: 15px; padding: 10px; height: 60px;">
+                                Você possui
+                                <br/>
+                                 	
+                                <img data-bind="attr: { src: require.toUrl('images/ico_seed.png') }" />
+                                SD$ <span data-bind="text: pontosAtuais"></span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size: 15px; padding: 10px; height: 60px;">
+                                Sua compra está em: <br>R$ <span data-bind="text: precoTotal"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>Lista de produtos</h3>
+
+        <table class="table">
+            <thead>
+                <tr>
+                <th>Produto</th>
+                <th>Custo em pontos</th>
+                <th>Comprar com pontos?</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: produtos">
+                <tr>
+                    <td>
+                        <img data-bind="attr: {'src': img}">
+                        <span data-bind="text: nome"></span>
+                    </td>
+                    <td>
+                        <img data-bind="attr: { src: require.toUrl('images/ico_seed.png') }" /><span data-bind="text: pontos"></span>
+                    </td>
+                    <td>
+                        <input type="checkbox" value="usar" data-bind="checked: usaPontos, attr: {'disabled': desabilitado}" />
+                </tr>
+            </tbody>
+        </table>
+
+        <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button data-role="opc-continue" type="submit" class="button action continue primary" style="margin-top: 15px">
+                        <span><!-- ko i18n: 'Avançar'--><!-- /ko --></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</li>
