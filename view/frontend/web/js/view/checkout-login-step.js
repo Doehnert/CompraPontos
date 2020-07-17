@@ -13,7 +13,8 @@ define(
         'Magento_Customer/js/customer-data',
         'Magento_Checkout/js/model/quote',
         'Magento_Checkout/js/model/cart/totals-processor/default',
-        'Magento_Checkout/js/model/totals'
+        'Magento_Checkout/js/model/totals',
+        'jquery'
     ],
     function (
         ko,
@@ -27,7 +28,8 @@ define(
         customerData,
         quote,
         totalsDefaultProvider,
-        totals
+        totals,
+        $
     ) {
         'use strict';
         /**
@@ -121,13 +123,21 @@ define(
                     }
                     return produtos;
                 }, this);
+                console.log("qtd de produtos = " + this.produtos.length);
+                if (this.produtos.length == 0){
+                    console.log($('#avancar'));
+                    //$('#avancar').first().trigger('click');
+                    // this.fim(true);
+                    //this.navigateToNextStep();
+                    // setTimeout(function(){
+                    //     $("#avancar").click();
+                    // },1000);
+                }
 
                 // this.produtos[0].usaPontos = true;
 
                 this.pontosAtuais = ko.computed(function() {
                     if (this.fim()==false){
-
-
 
                         var pontosCliente = Number(this.pontosCliente());
                         let preco_total = totals.getSegment('grand_total').value;
