@@ -12,8 +12,8 @@
         <observer name="test_name" instance="Vexpro\CompraPontos\Observer\Productsaveafter" />
     </event>
 
-    <event name="sales_order_save_after">
+    <!-- <event name="sales_order_save_after">
         <observer name="showproductdata" instance="Vexpro\CompraPontos\Observer\EnviaNotaFiscal" />
-    </event>
+    </event> -->
 
 </config>
