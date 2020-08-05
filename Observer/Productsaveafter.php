@@ -106,9 +106,9 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                     "unit" => $_unidade,
                     "partners" => $cnpj_partners,
                     "active" => true,
-                    "generatePoints" => false,
-                    "typeOfPoints" => 0,
-                    "value" => $value
+                    "generatePoints" => false
+                    // "typeOfPoints" => 0,
+                    // "value" => $value
                 ];
                 
                 $data_json = json_encode($params);
