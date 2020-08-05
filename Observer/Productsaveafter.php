@@ -128,7 +128,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                 $this->_messageManager->addError('Não foi possível conectar com germini');
             }
         } else {
-            $this->cleanCache();
+            //$this->cleanCache();
             //$this->flushCache();
         }
     }
