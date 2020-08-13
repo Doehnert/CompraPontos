@@ -20,6 +20,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
 
 <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_CompraPontos::img/ico_real.png'); ?>" />
+<span>&nbsp;&nbsp;</span>
 
 <?php if ($block->hasSpecialPrice()) :?>
     <span class="special-price">
@@ -70,6 +71,7 @@ if ($attvalue > 0)
 {
     ?>
     <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_CompraPontos::img/ico_seed.png'); ?>" />
+    <span>&nbsp;&nbsp;</span>
     <?php
     echo ("SD$ ".round($attvalue));
 }

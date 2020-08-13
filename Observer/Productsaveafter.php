@@ -70,6 +70,18 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         $_active = true;
         $_generatePoints = true;
 
+        // Caso pontos_produto e pontuacao sejam vazio
+        // coloca como zero
+        if ($value==''){
+            $_product->setCustomAttribute('pontos_produto', 0);
+            $_product->save();
+        }
+        if($_product->getPontuacao()==''){
+            $_product->setCustomAttribute('pontuacao', 0);
+            $_product->save();
+        }
+
+
         // Pega o token da sessão
         $token = $this->catalogSession->getToken();
         
@@ -105,8 +117,8 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                     "price" => $_price,
                     "unit" => $_unidade,
                     "partners" => $cnpj_partners,
-                    "active" => true,
-                    "generatePoints" => false
+                    "active" => true
+                    //"generatePoints" => false
                     // "typeOfPoints" => 0,
                     // "value" => $value
                 ];
