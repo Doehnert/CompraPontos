@@ -57,7 +57,6 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        //$myEventData = $observer->getData('myEventData');
         $_product = $observer->getProduct();  // you will get product object
         $_sku=$_product->getSku(); // for sku
         $_name=$_product->getName();
@@ -74,11 +73,11 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         // coloca como zero
         if ($value==''){
             $_product->setCustomAttribute('pontos_produto', 0);
-            $_product->save();
+            //$_product->save();
         }
         if($_product->getPontuacao()==''){
             $_product->setCustomAttribute('pontuacao', 0);
-            $_product->save();
+            //$_product->save();
         }
 
 
@@ -118,9 +117,6 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                     "unit" => $_unidade,
                     "partners" => $cnpj_partners,
                     "active" => true
-                    //"generatePoints" => false
-                    // "typeOfPoints" => 0,
-                    // "value" => $value
                 ];
                 
                 $data_json = json_encode($params);
