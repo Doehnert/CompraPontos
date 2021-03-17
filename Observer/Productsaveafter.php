@@ -21,7 +21,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Cache\Manager $cacheManager,
-        TypeListInterface $cacheTypeList, 
+        TypeListInterface $cacheTypeList,
         Pool $cacheFrontendPool
     )
     {
@@ -39,7 +39,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
     $_types = [
                 'full_page'
                 ];
-    
+
         foreach ($_types as $type) {
             $this->cacheTypeList->cleanType($type);
         }
@@ -83,7 +83,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
 
         // Pega o token da sessão
         $token = $this->catalogSession->getToken();
-        
+
         // Aqui vai o cnpj do parceiro ecommerce
         // Usa a API GetCurrentPartner para encontrar o cnpj
         $cnpj_partners = [];
@@ -99,8 +99,14 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                 $this->_curl->get($url);
                 $response = $this->_curl->getBody();
                 $dados = json_decode($response);
-                $cnpj = $dados->cnpj;
-                array_push($cnpj_partners, $cnpj);
+
+                $branches = $dados->branches;
+                foreach($branches as $branch)
+                {
+                    array_push($cnpj_partners, $branch->cnpj);
+                }
+                // $cnpj = $dados->cnpj;
+                // array_push($cnpj_partners, $cnpj);
             }
             catch (\Exception $e) {
                 $this->_messageManager->addError('Não foi possível conectar com germini');
@@ -118,26 +124,31 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                     "partners" => $cnpj_partners,
                     "active" => true
                 ];
-                
+
                 $data_json = json_encode($params);
-    
+
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: text/plain'));
-    
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept: text/plain', 'x-api-key: lpszGTo6WAwoKbFzrtd1sIIwvknz40sD'));
+
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    
+
                 $response  = curl_exec($ch);
-    
+                $data = json_decode($response);
+                if ($data->success == false){
+                    foreach($data->errors as $erro)
+                    {
+                        $this->_messageManager->addError($erro->message);
+                    }
+
+                }
+
                 curl_close($ch);
             }
             catch (\Exception $e) {
                 $this->_messageManager->addError('Não foi possível conectar com germini');
             }
-        } else {
-            //$this->cleanCache();
-            //$this->flushCache();
         }
     }
 }
