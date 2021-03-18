@@ -200,14 +200,14 @@ define([
 				for (var i = 0; i < this.produtos().length; i++) {
 					console.log(this.produtos()[i].id);
 					if (this.produtos()[i].usaPontos() == true) {
-						// jQuery.ajax({
-						// 	url: '/comprapontos/pontos/retiraprod',
-						// 	type: 'POST',
-						// 	async: false,
-						// 	data: {
-						// 		prod_id: this.produtos()[i].id,
-						// 	},
-						// });
+						jQuery.ajax({
+							url: '/comprapontos/pontos/retiraprod',
+							type: 'POST',
+							async: false,
+							data: {
+								prod_id: this.produtos()[i].id,
+							},
+						});
 
 						pontos += Number(this.produtos()[i].pontos);
 						preco += Number(this.produtos()[i].preco);

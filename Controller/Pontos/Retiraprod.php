@@ -69,41 +69,15 @@ class Retiraprod extends \Magento\Framework\App\Action\Action
             {
                 //$subprice = $item->getPrice();
                 $finalprice = 0;
-                $item->setCustomPrice($finalprice);
-                $item->setOriginalCustomPrice($finalprice);
+                $item->setAdditionalData('regate');
+                //$item->setDiscountPercent(100);
+                //$item->setCustomPrice($finalprice);
+                //$item->setOriginalCustomPrice($finalprice);
                 $item->getProduct()->setIsSuperMode(true);
                 $item->saveItemOptions();
                 break;
             }
         }
         $this->cart->save();
-
-    //     $preco = $post['preco'];
-
-    //     // Instancia o cliente e carrega sua pontuação
-    // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    // //     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
-    // //     $customer = $customerSession->getCustomer();
-    // //     $customerId = $customer->getId();
-    // //     $pontosCliente = $customerSession->getPontosCliente();
-
-    // //     // Instancia o carrinho e carrega o preço total sendo cobrado
-    // $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-
-    // $quote = $cart->getQuote();
-    // $grandTotal = $quote->getGrandTotal();
-
-    //     // Retira o preço dos produtos selecionados do preço total a ser pago
-    //     $quote->setGrandTotal($grandTotal - $preco);
-    //     $grandTotal = $quote->getGrandTotal();
-    //     $quoteId = $quote->getId();
-    //     $quote->save();
-
-    //     // Subtrai dos pontos do cliente os pontos desse produto
-    //     $customerSession->setPontosCliente($pontosCliente - $pontos);
-    //     $pontosCliente = $customerSession->getPontosCliente();
-    //     $val = $preco + $customerSession->getDesconto();
-    //     $customerSession->setDesconto($val);
-    //     $customerSession->setPontosUsados($pontos);
     }
 }
