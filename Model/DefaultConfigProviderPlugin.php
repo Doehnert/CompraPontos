@@ -21,19 +21,17 @@ class DefaultConfigProviderPlugin
   public function afterGetConfig(\Magento\Checkout\Model\DefaultConfigProvider $config,
   $output){
     $output= $this->getCustomQuoteData($output);
+
     return $output;
   }
   private function getCustomQuoteData($output)
   {
-      if ($this->checkoutSession->getQuote()->getId()) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $pontosUsados = $customerSession->getPontosUsados();
+    $output['quoteData']['pontos-usados'] = $pontosUsados;
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $frete_pontos = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('payment/newpayment/frete');
-        $valor_frete = $this->checkoutSession->getQuote()->getShippingAddress()->getShippingAmount();
-        $totalFrete = ($valor_frete * $frete_pontos);
-        $output['quoteData']['pontosfrete'] = $totalFrete;
-      }
-      return $output;
+    return $output;
   }
 }
 ?>

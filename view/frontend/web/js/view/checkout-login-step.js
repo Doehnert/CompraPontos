@@ -60,6 +60,7 @@ define([
 		 */
 		initialize: function () {
 			this._super();
+
 			console.log(customer.customerData.custom_attributes.pontos_cliente.value);
 
 			jQuery.get('/comprapontos/pontos/sessao', '', function (data) {
@@ -149,6 +150,7 @@ define([
 						}
 					}
 
+					let total_usado = 0;
 					for (var i = 0; i < this.produtos().length; i++) {
 						var pontosUsados = Number(this.produtos()[i].pontos);
 
@@ -159,6 +161,7 @@ define([
 								this.produtos()[i].usaPontos(false);
 							} else {
 								pontosCliente -= pontosUsados;
+								total_usado += pontosUsados;
 								this.precoTotal(
 									Number(this.precoTotal()) - Number(this.produtos()[i].preco),
 								);
@@ -176,6 +179,7 @@ define([
 							}
 						}
 					}
+					window.checkoutConfig['usados'] = total_usado;
 					var x = pontosCliente.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 					return x;
 				}

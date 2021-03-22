@@ -13,15 +13,12 @@ namespace Vexpro\CompraPontos\Plugin\Checkout\Model;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Catalog\Model\ProductRepository;
-
 class DefaultConfigProvider
-
 {
-    /**
+   /**
      * @var CheckoutSession
      */
     protected $checkoutSession;
-
 
     /**
      * Constructor
@@ -59,7 +56,7 @@ class DefaultConfigProvider
 
             $customer = $this->checkoutSession->getQuote()->getCustomer();
             $id_cliente = $customer->getId();
-            
+
             if ($id_cliente)
             {
                 $pontosCliente = $customer->getCustomAttributes('pontos_cliente');
@@ -73,22 +70,21 @@ class DefaultConfigProvider
                         $pontos = 0;
                         $pontosCliente = 0;
                     }
-                    
-                    
+
+
                 } else {
                     $pontos = 0;
                     $pontosCliente = 0;
                 }
-    
-                $result['quoteItemData'][$index]['pontoscliente'] = $pontosCliente;
-            }
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $frete_pontos = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('payment/newpayment/frete');
-            $valor_frete = $this->checkoutSession->getQuote()->getShippingAddress()->getShippingAmount();
-            $totalFrete = ($valor_frete * $frete_pontos);
-            $result['quoteItemData'][$index]['pontosfrete'] = $totalFrete;
+                $result['quoteItemData'][$index]['pontoscliente'] = $pontosCliente;
+
+            }
         }
+
+        $customerSession = $objectManager->create('Magento\Framework\Session\SessionManager');
+        $pontosUsados = $customerSession->getPontosUsados();
+        $result['quoteData']['pontosUsados'] = $pontosUsados;
 
         return $result;
     }
