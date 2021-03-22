@@ -55,8 +55,8 @@
 
                                                         <!-- Component for total discount -->
 
-                                                        <item name="grand-total" xsi:type="array">
-                                                            <item name="component" xsi:type="string">Vexpro_CompraPontos/js/view/summary/grand-total</item>
+                                                        <item name="desconto" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Vexpro_CompraPontos/js/view/summary/desconto</item>
                                                             <item name="config" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">3</item>
                                                                 <item name="title" xsi:type="string" translate="true">Desconto (SD$)</item>

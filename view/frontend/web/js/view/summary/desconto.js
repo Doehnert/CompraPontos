@@ -9,7 +9,7 @@ define([
 
 	return Component.extend({
 		defaults: {
-			template: 'Vexpro_CompraPontos/summary/grand-total',
+			template: 'Vexpro_CompraPontos/summary/desconto',
 		},
 
 		/**
