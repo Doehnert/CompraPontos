@@ -71,8 +71,9 @@ class Retiraprod extends \Magento\Framework\App\Action\Action
                 $finalprice = 0;
                 $item->setAdditionalData('regate');
                 //$item->setDiscountPercent(100);
-                //$item->setCustomPrice($finalprice);
-                //$item->setOriginalCustomPrice($finalprice);
+                //$item->setDiscountPercent(100);
+                // $item->setCustomPrice(0);
+                // $item->setOriginalCustomPrice(0);
                 $item->getProduct()->setIsSuperMode(true);
                 $item->saveItemOptions();
                 break;

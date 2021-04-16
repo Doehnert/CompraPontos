@@ -51,10 +51,10 @@ class Retira extends \Magento\Framework\App\Action\Action
 
      /**
      * Create Order On Your Store
-     * 
+     *
      * @param array $orderData
      * @return array
-     * 
+     *
     */
     private function whereYouNeedToCleanCache()
     {
@@ -80,22 +80,22 @@ class Retira extends \Magento\Framework\App\Action\Action
         $customer = $customerSession->getCustomer();
         $customerId = $customer->getId();
         $pontosCliente = $customerSession->getPontosCliente();
-        
+
         // Instancia o carrinho e carrega o preço total sendo cobrado
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         $quote = $cart->getQuote();
-        $grandTotal = $quote->getGrandTotal();
+        $grandTotal = $quote->getBaseGrandTotal();
 
         // Retira o preço dos produtos selecionados do preço total a ser pago
-        $quote->setGrandTotal($grandTotal - $preco);
-        $grandTotal = $quote->getGrandTotal();
-        $quoteId = $quote->getId();
-        $quote->save();
+        // $quote->setGrandTotal($grandTotal - $preco);
+        // $quoteId = $quote->getId();
+        // $quote->save();
 
         // Subtrai dos pontos do cliente os pontos desse produto
         $customerSession->setPontosCliente($pontosCliente - $pontos);
         $pontosCliente = $customerSession->getPontosCliente();
-        $val = $preco + $customerSession->getDesconto();
+        // $val = $preco + $customerSession->getDesconto();
+        $val = $preco;
         $customerSession->setDesconto($val);
         $customerSession->setPontosUsados($pontos);
     }

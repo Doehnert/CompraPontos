@@ -35,6 +35,11 @@ define([
 	 */
 
 	return Component.extend({
+		getGrandTotal: function () {
+			var totals = quote.totals();
+			console.log(quote.totals());
+			return (totals ? totals : quote)['base_subtotal'];
+		},
 		defaults: {
 			template: 'Vexpro_CompraPontos/check-login',
 		},
@@ -61,7 +66,7 @@ define([
 		initialize: function () {
 			this._super();
 
-			console.log(customer.customerData.custom_attributes.pontos_cliente.value);
+			//localStorage['visited'] = 0;
 
 			jQuery.get('/comprapontos/pontos/sessao', '', function (data) {
 				totalsDefaultProvider.estimateTotals(quote.shippingAddress());
@@ -123,7 +128,6 @@ define([
 				}
 				return produtos;
 			}, this);
-			console.log('qtd de produtos = ' + this.produtos.length);
 			if (this.produtos.length == 0) {
 				console.log($('#avancar'));
 				//$('#avancar').first().trigger('click');
@@ -139,7 +143,7 @@ define([
 			this.pontosAtuais = ko.computed(function () {
 				if (this.fim() == false) {
 					var pontosCliente = Number(this.pontosCliente());
-					let preco_total = totals.getSegment('grand_total').value;
+					let preco_total = this.getGrandTotal();
 					this.precoTotal(preco_total);
 
 					for (var i = 0; i < this.produtos().length; i++) {
@@ -156,7 +160,7 @@ define([
 
 						if (this.produtos()[i].usaPontos() == true) {
 							if (pontosCliente - pontosUsados < 0) {
-								alert('Você não possui pontos suficientes sdf!');
+								alert('Você não possui pontos suficientes!');
 								this.produtos()[i].desabilitado(true);
 								this.produtos()[i].usaPontos(false);
 							} else {
@@ -165,6 +169,9 @@ define([
 								this.precoTotal(
 									Number(this.precoTotal()) - Number(this.produtos()[i].preco),
 								);
+
+								window.checkoutConfig['descontado'] =
+									preco_total - this.precoTotal();
 
 								for (var j = 0; j < this.produtos().length; j++) {
 									if (this.produtos()[j].usaPontos() == false) {
@@ -179,7 +186,9 @@ define([
 							}
 						}
 					}
+
 					window.checkoutConfig['usados'] = total_usado;
+
 					var x = pontosCliente.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 					return x;
 				}
@@ -202,7 +211,6 @@ define([
 				let preco = 0;
 				let pontos = 0;
 				for (var i = 0; i < this.produtos().length; i++) {
-					console.log(this.produtos()[i].id);
 					if (this.produtos()[i].usaPontos() == true) {
 						jQuery.ajax({
 							url: '/comprapontos/pontos/retiraprod',
@@ -234,7 +242,7 @@ define([
 			}
 
 			stepNavigator.next();
-			this.fim(true);
+			//this.fim(true);
 
 			let quantity = 0;
 			for (let i = 0; i < quote.getItems().length; i++) {

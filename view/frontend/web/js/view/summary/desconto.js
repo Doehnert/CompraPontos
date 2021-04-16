@@ -23,11 +23,16 @@ define([
 		 * Get pure value.
 		 */
 		getPureValue: function () {
+			console.log(totals);
 			var totals = quote.getTotals()();
+			console.log(quote);
+			console.log(totals);
+
 			if (totals) {
-				return totals['total_segments'][2]['value'];
+				return quote.getTotals()()['total_segments'][2]['value'];
 			}
 			return quote['grand_total'];
+			//return window.checkoutConfig['descontado'];
 		},
 
 		/**
@@ -44,8 +49,6 @@ define([
 				precision: 2,
 				requiredPrecision: 2,
 			};
-
-			console.log(this.getPureValue());
 
 			return priceUtils.formatPrice(-this.getPureValue(), priceFormat, true);
 		},

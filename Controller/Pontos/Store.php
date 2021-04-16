@@ -43,7 +43,7 @@ class Store extends \Magento\Framework\App\Action\Action
         $customer = $customerSession->getCustomer();
         $customerId = $customer->getId();
         $pontosCliente = $customer->getPontosCliente();
-        
+
         // Instancia o carrinho e carrega o preço total sendo cobrado
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         $quote = $cart->getQuote();
