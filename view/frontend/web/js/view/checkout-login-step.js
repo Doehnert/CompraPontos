@@ -29,7 +29,9 @@ define([
 	totals,
 	$,
 ) {
-	'use strict';
+    'use strict';
+
+    var self;
 	/**
 	 * check-login - is the name of the component's .html template
 	 */
@@ -64,7 +66,9 @@ define([
 		 * @returns {*}
 		 */
 		initialize: function () {
-			this._super();
+            this._super();
+
+            self = this;
 
 			//localStorage['visited'] = 0;
 
@@ -140,6 +144,10 @@ define([
 
 			// this.produtos[0].usaPontos = true;
 
+            this.pontosUsados = ko.observable(0),
+
+
+
 			this.pontosAtuais = ko.computed(function () {
 				if (this.fim() == false) {
 					var pontosCliente = Number(this.pontosCliente());
@@ -154,7 +162,8 @@ define([
 						}
 					}
 
-					let total_usado = 0;
+                    let total_usado = 0;
+                    this.pontosUsados(total_usado);
 					for (var i = 0; i < this.produtos().length; i++) {
 						var pontosUsados = Number(this.produtos()[i].pontos);
 
@@ -165,7 +174,8 @@ define([
 								this.produtos()[i].usaPontos(false);
 							} else {
 								pontosCliente -= pontosUsados;
-								total_usado += pontosUsados;
+                                total_usado += pontosUsados;
+                                this.pontosUsados(total_usado);
 								this.precoTotal(
 									Number(this.precoTotal()) - Number(this.produtos()[i].preco),
 								);
@@ -192,9 +202,21 @@ define([
 					var x = pontosCliente.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 					return x;
 				}
-			}, this);
+            }, this);
+
+            this.senhaRequerida = ko.computed(function () {
+                if (self.pontosUsados() > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+
+
 			return this;
-		},
+        },
+
+
 
 		/**
 		 * The navigate() method is responsible for navigation between checkout step

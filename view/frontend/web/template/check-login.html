@@ -1,3 +1,44 @@
+<style>
+    .tooltip {}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    #senha {
+        margin-bottom: 1em;
+    }
+</style>
+
 <!--Use 'stepCode' as id attribute-->
 <li data-bind="fadeVisible: isVisible, attr: { id: stepCode }">
 	<div class="step-title" data-bind="i18n: stepTitle" data-role="title"></div>
@@ -70,6 +111,46 @@
 			</tbody>
 		</table>
 
+        <label for:"senha" class="label">
+            <span>Senha de resgate *</span>
+        </label>
+        <div class="field required">
+            <div class="control" style='display: flex; align-items: center'>
+
+                <div class="tooltip">
+                    <input type="password" id="senha" name="senha" required class="input-text" placeholder="" data-bind="enable: senhaRequerida" />
+                </div>
+
+                <img style="height: 23px; width: 45px; margin-left: 2em" id='icon'
+                    data-bind="attr: { src: require.toUrl('Vexpro_CompraPontos/img/ico_teclado.png') }" />
+
+            </div>
+            <div class="control">
+                <div class="cryxpad-container"></div>
+            </div>
+        </div>
+
+        <div class="field required">
+            <div class="control" style='display: flex; align-items: center'>
+
+                <a target="_blank" href="https://cvale-fidelidade-consumer-hom.azurewebsites.net/resetpassword">Resetar
+                </a>
+
+                <div class="tooltip">
+                    <img style="height: 15px; width: 15px; margin-left: 1em" id='icon'
+                        data-bind="attr: { src: require.toUrl('Vexpro_CompraPontos/img/ico_informacao.png') }" />
+
+                    <span class="tooltiptext">Alerar senha de acesso a loja</span>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div data-bind='mageInit: {"hello":{}}'>
+        </div>
+
 		<form data-bind="submit: navigateToNextStep" novalidate="novalidate">
 			<div class="actions-toolbar">
 				<div class="primary">
@@ -87,3 +168,5 @@
 		</form>
 	</div>
 </li>
+
+
