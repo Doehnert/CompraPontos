@@ -17,7 +17,7 @@ class UsaPontos implements \Magento\Framework\Event\ObserverInterface
          $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
          $this->cacheManager->clean($this->cacheManager->getAvailableTypes());
      }
- 
+
 	public function execute(\Magento\Framework\Event\Observer $observer)
 	{
         // Carrega a variável de sessão desconto que possui o valor do desconto em R$
@@ -37,16 +37,17 @@ class UsaPontos implements \Magento\Framework\Event\ObserverInterface
         // Total da compra
         $grandTotal = $quote->getGrandTotal();
         // Aplica o desconto dos pontos
-        $quote->setGrandTotal($grandTotal-$desconto);
-        
-        $customer->setCustomAttribute('pontos_cliente',$pontosCliente);
-        $customerRepository->save($customer);
+        //$quote->setGrandTotal($grandTotal-$desconto);
+
+        // COMENTADO PARA NAO ALTERAR PONTOS CLIENTE POR ENQUANTO
+        //$customer->setCustomAttribute('pontos_cliente',$pontosCliente);
+        //$customerRepository->save($customer);
 
         // Depois da compra volta a zerar o desconto
         // $customerSession->unsDesconto();
-        $customerSession->unsPontosCliente();
+        //$customerSession->unsPontosCliente();
 
         //TODO: limpar o cache
-        $this->whereYouNeedToCleanCache();
+        //$this->whereYouNeedToCleanCache();
     }
 }
