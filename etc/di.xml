@@ -10,14 +10,6 @@
                 type="Vexpro\CompraPontos\Plugin\OrderRepositoryPlugin" />
     </type>
 
-	<virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
-        <arguments>
-            <argument name="columns" xsi:type="array">
-                <item name="pontos_usados" xsi:type="string">sales_order.pontos_usados</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
    <type name="Magento\Payment\Model\MethodList">
         <plugin name="add_new_attribute_to_quote_data" type="Vexpro\CompraPontos\Model\DefaultConfigProviderPlugin" />
     </type>
