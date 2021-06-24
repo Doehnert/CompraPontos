@@ -14,4 +14,12 @@
         <plugin name="add_new_attribute_to_quote_data" type="Vexpro\CompraPontos\Model\DefaultConfigProviderPlugin" />
     </type>
 
+    <type name="Magento\Framework\Console\CommandList">
+       <arguments>
+           <argument name="commands" xsi:type="array">
+               <item name="exampleSayHello" xsi:type="object">Vexpro\CompraPontos\Console\Sayhello</item>
+           </argument>
+       </arguments>
+   </type>
+
 </config>
