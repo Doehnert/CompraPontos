@@ -105,124 +105,17 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
 
 
         $xmlstr = "<?xml version='1.0' encoding='UTF-8'?>
-        <definitions targetNamespace='urn:sap-com:document:sap:rfc:functions' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd' xmlns:http='http://schemas.xmlsoap.org/wsdl/http/' xmlns:s0='urn:sap-com:document:sap:rfc:functions' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'>
-            <types>
-                <xsd:schema targetNamespace='urn:sap-com:document:sap:rfc:functions'>
-                        <xsd:element name='Z_Replicacao_Imagem_Produto'>
-                            <xsd:complexType>
-                                <xsd:all>
-                                    <xsd:element name='{$_sku}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$Url_Imagem}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$Url_Imagem2}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$Url_Imagem3}' type='xsd:string'/>
-                                </xsd:all>
-                            </xsd:complexType>
-                        </xsd:element>
-
-                    <xsd:element name='Z_Replicacao_Imagem_Produto.Response'>
-                        <xsd:complexType>
-                        <xsd:all>
-                            <xsd:element name='E_RESPONSE'>
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                    <xsd:element minOccurs='0' name='Status' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='Msg' type='xsd:string'/>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:all>
-                        </xsd:complexType>
-                    </xsd:element>
-                    </xsd:schema>
-            </types>
-            <message name='Z_Replicacao_Imagem_ProdutoOutput'>
-                <part name='parameters' element='s0:Z_Replicacao_Imagem_Produto.Response'>
-                </part>
-            </message>
-            <message name='Z_Replicacao_Imagem_ProdutoInput'>
-                <part name='parameters' element='s0:Z_Replicacao_Imagem_Produto'>
-                </part>
-            </message>
-            <portType name='Z_Replicacao_Imagem_Produto_PortType'>
-                <operation name='Z_Replicacao_Imagem_Produto'>
-                <input message='s0:Z_Replicacao_Imagem_ProdutoInput'>
-                </input>
-                <output message='s0:Z_Replicacao_Imagem_ProdutoOutput'>
-                </output>
-                </operation>
-            </portType>
-            <binding name='Z_Replicacao_Imagem_Produto_ServiceBinding' type='s0:Z_Replicacao_Imagem_Produto_PortType'>
-                <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
-                <wsp:Policy xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'>
-                        <wsp:PolicyReference URI='#BN__binding'/>
-                    </wsp:Policy>
-                <operation name='Z_Replicacao_Imagem_Produto'>
-                <soap:operation soapAction='http://www.sap.com/Z_Replicacao_Imagem_Produto'/>
-                <input>
-                    <soap:body use='literal'/>
-                </input>
-                <output>
-                    <soap:body use='literal'/>
-                </output>
-                </operation>
-            </binding>
-            <service name='Z_Replicacao_Imagem_Produto_Service'>
-            <documentation>SAP Service Z_Replicacao_Produto via SOAP to MKT</documentation>
-                <port name='Z_Replicacao_Imagem_ProdutoPortType' binding='s0:Z_Replicacao_Imagem_Produto_ServiceBinding'>
-                <soap:address location='https://e400237-iflmap.hcisbt.br1.hana.ondemand.com:443/cxf/Replicacao_Imagens_Produtos'/>
-                </port>
-            </service>
-                <wsp:UsingPolicy required='true' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'/>
-                <wsp:Policy wsu:Id='BN__binding' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy' xmlns:wsu='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'>
-                    <wsp:ExactlyOne>
-                        <wsp:All>
-                            <sp:TransportBinding xmlns:sp='http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702'>
-                                <wsp:Policy>
-                                    <sp:TransportToken>
-                                        <wsp:Policy>
-                                            <sp:HttpsToken>
-                                                <wsp:Policy>
-                                                    <wsp:ExactlyOne>
-                                                        <sp:HttpBasicAuthentication/>
-                                                        <sp:RequireClientCertificate/>
-                                                    </wsp:ExactlyOne>
-                                                </wsp:Policy>
-                                            </sp:HttpsToken>
-                                        </wsp:Policy>
-                                    </sp:TransportToken>
-                                    <sp:AlgorithmSuite>
-                                        <wsp:Policy>
-                                            <wsp:ExactlyOne>
-                                                <sp:Basic256/>
-                                                <sp:Basic192/>
-                                                <sp:Basic128/>
-                                                <sp:TripleDes/>
-                                                <sp:Basic256Rsa15/>
-                                                <sp:Basic192Rsa15/>
-                                                <sp:Basic128Rsa15/>
-                                                <sp:TripleDesRsa15/>
-                                                <sp:Basic256Sha256/>
-                                                <sp:Basic192Sha256/>
-                                                <sp:Basic128Sha256/>
-                                                <sp:TripleDesSha256/>
-                                                <sp:Basic256Sha256Rsa15/>
-                                                <sp:Basic192Sha256Rsa15/>
-                                                <sp:Basic128Sha256Rsa15/>
-                                                <sp:TripleDesSha256Rsa15/>
-                                            </wsp:ExactlyOne>
-                                        </wsp:Policy>
-                                    </sp:AlgorithmSuite>
-                                    <sp:Layout>
-                                        <wsp:Policy>
-                                            <sp:Strict/>
-                                        </wsp:Policy>
-                                    </sp:Layout>
-                                </wsp:Policy>
-                            </sp:TransportBinding>
-                        </wsp:All>
-                    </wsp:ExactlyOne>
-                </wsp:Policy>
-            </definitions>
+					<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sap-com:document:sap:rfc:functions\">
+					<soapenv:Header/>
+					<soapenv:Body>
+							<urn:Z_Replicacao_Imagem_Produto>
+								<sku>{$_sku}</sku>
+								<Url_Imagem>{$Url_Imagem}</Url_Imagem>
+								<Url_Imagem2>{$Url_Imagem2}</Url_Imagem2>
+								<Url_Imagem3>{$Url_Imagem3}</Url_Imagem3>
+							</urn:Z_Replicacao_Imagem_Produto>
+					</soapenv:Body>
+				</soapenv:Envelope>
             ";
 
             $simplexml = new \SimpleXMLElement($xmlstr);
@@ -243,7 +136,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
             ]);
             curl_setopt($ch, CURLOPT_POST, 1);
 
-            curl_setopt($ch, CURLOPT_USERPWD, "$images_login:$images_pwd");
+            curl_setopt($ch, CURLOPT_USERPWD, $images_login . ":" . $images_pwd);
 
             $data = curl_exec($ch);
             curl_close($ch);
