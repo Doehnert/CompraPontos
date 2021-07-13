@@ -110,9 +110,9 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                             <xsd:complexType>
                                 <xsd:all>
                                     <xsd:element name='{$_sku}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$imageUrls}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$imageUrls2}' type='xsd:string'/>
-                                    <xsd:element minOccurs='0' name='{$imageUrls3}' type='xsd:string'/>
+                                    <xsd:element minOccurs='0' name='{$Url_Imagem}' type='xsd:string'/>
+                                    <xsd:element minOccurs='0' name='{$Url_Imagem2}' type='xsd:string'/>
+                                    <xsd:element minOccurs='0' name='{$Url_Imagem3}' type='xsd:string'/>
                                 </xsd:all>
                             </xsd:complexType>
                         </xsd:element>
