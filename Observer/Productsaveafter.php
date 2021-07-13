@@ -85,6 +85,8 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
 
         // INTEGRAÇÃO DE IMAGENS DOS PRODUTOS
         $url_images = $this->scopeConfig->getValue('acessos/general/images_url', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $images_login = $this->scopeConfig->getValue('acessos/general/images_login', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $images_pwd = $this->scopeConfig->getValue('acessos/general/images_pwd', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 
         $productimages = array();
@@ -240,6 +242,8 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                 "Content-Type: text/xml",
             ]);
             curl_setopt($ch, CURLOPT_POST, 1);
+
+            curl_setopt($ch, CURLOPT_USERPWD, "$images_login:$images_pwd");
 
             $data = curl_exec($ch);
             curl_close($ch);
