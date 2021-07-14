@@ -66,7 +66,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 
 <?php
     $_product = $block->getPriceType('final_price')->getProduct();
-    $attvalue = $_product->getCustomAttribute('pontos_produto')->getValue();
+    $attvalue = (null !== $_product->getCustomAttribute('pontos_produto')) ? $_product->getCustomAttribute('pontos_produto')->getValue() : 0;
 
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -88,13 +88,15 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     ?>
     <?php
     echo "<p>";
-    if (($_product->getCustomAttribute('mostrar_pontuacao')->getValue()) == 1) {
+    $mostrar_pontuacao = ($_product->getCustomAttribute('mostrar_pontuacao') !== null) ? $_product->getCustomAttribute('mostrar_pontuacao')->getValue() : False;
+    if ($mostrar_pontuacao == 1) {
     ?>
         <span class="special-price" style="font-size: 15px; color: #3351A8; font-weight: bold;">
             <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_PontosProduto::images/pontuara.png'); ?>" />
             <span>&nbsp;&nbsp;</span>
             <?php
-            echo "Você pontuará " . $programCurrencySymbol . $_product->getCustomAttribute('pontuacao')->getValue(); ?>
+            $pontuacao = ($_product->getCustomAttribute('pontuacao') !== null) ? $_product->getCustomAttribute('pontuacao')->getValue() : 0;
+            echo "Você pontuará " . $programCurrencySymbol . $pontuacao; ?>
         </span>
     <?php
     }
