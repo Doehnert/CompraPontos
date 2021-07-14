@@ -65,15 +65,39 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 <div>
 
 <?php
-$_product = $block->getPriceType('final_price')->getProduct();
-$attvalue = $_product->getCustomAttribute('pontos_produto')->getValue();
-if ($attvalue > 0)
-{
+    $_product = $block->getPriceType('final_price')->getProduct();
+    $attvalue = $_product->getCustomAttribute('pontos_produto')->getValue();
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $scopeConfig = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
+
+    $programCurrencySymbol = $scopeConfig->getValue('acessos/general/programCurrencySymbol', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    $programCurrencyName = $scopeConfig->getValue('acessos/general/programCurrencyName', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+    if ($attvalue > 0) {
     ?>
-    <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_CompraPontos::img/ico_seed.png'); ?>" />
-    <span>&nbsp;&nbsp;</span>
+        <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_CompraPontos::img/ico_seed.png'); ?>" />
+        <span>&nbsp;&nbsp;</span>
+        <span class="special-price" style="font-size: 15px; color: #3351A8; font-weight: bold;">
+            <?php
+            echo ($programCurrencySymbol . " " . round($attvalue));
+            ?>
+        </span>
     <?php
-    echo ("SD$ ".round($attvalue));
-}
-?>
+    }
+    ?>
+    <?php
+    echo "<p>";
+    if (($_product->getCustomAttribute('mostrar_pontuacao')->getValue()) == 1) {
+    ?>
+        <span class="special-price" style="font-size: 15px; color: #3351A8; font-weight: bold;">
+            <img style="display: inline;" src="<?php echo $this->getViewFileUrl('Vexpro_PontosProduto::images/pontuara.png'); ?>" />
+            <span>&nbsp;&nbsp;</span>
+            <?php
+            echo "Você pontuará " . $programCurrencySymbol . $_product->getCustomAttribute('pontuacao')->getValue(); ?>
+        </span>
+    <?php
+    }
+    echo "</p>";
+    ?>
 </div>
