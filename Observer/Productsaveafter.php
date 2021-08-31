@@ -68,6 +68,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         $barcode = $_product->getBarcode();
         $_active = true;
         $_generatePoints = true;
+        $_origem = $_product->getOrigem();
 
         // Caso pontos_produto e pontuacao sejam vazios
         // eles terão o valor zero.
@@ -81,73 +82,80 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         }
 
         // INTEGRAÇÃO DE IMAGENS DOS PRODUTOS
-        $url_images = $this->scopeConfig->getValue(
-            "acessos/general/images_url",
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        $images_login = $this->scopeConfig->getValue(
-            "acessos/general/images_login",
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-        $images_pwd = $this->scopeConfig->getValue(
-            "acessos/general/images_pwd",
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
 
-        $productimages = [];
-        $imageUrls = [];
-        $productimages = $_product->getMediaGalleryImages();
-        foreach ($productimages as $productimage) {
-            array_push($imageUrls, $productimage["url"]);
+        // VERIFICA SE O PRODUTO TEM ORIGEM SAP
+        if ($_origem == 1)
+        {
+            $url_images = $this->scopeConfig->getValue(
+                "acessos/general/images_url",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+            $images_login = $this->scopeConfig->getValue(
+                "acessos/general/images_login",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+            $images_pwd = $this->scopeConfig->getValue(
+                "acessos/general/images_pwd",
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+
+            $productimages = [];
+            $imageUrls = [];
+            $productimages = $_product->getMediaGalleryImages();
+            foreach ($productimages as $productimage) {
+                array_push($imageUrls, $productimage["url"]);
+            }
+
+            $logger = $objectManager->create("\Psr\Log\LoggerInterface");
+
+            $Url_Imagem = isset($imageUrls[0]) ? $imageUrls[0] : "";
+            $Url_Imagem2 = isset($imageUrls[1]) ? $imageUrls[1] : "";
+            $Url_Imagem3 = isset($imageUrls[2]) ? $imageUrls[2] : "";
+
+            $xmlstr = "<?xml version='1.0' encoding='UTF-8'?>
+                        <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sap-com:document:sap:rfc:functions\">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <urn:Z_Replicacao_Imagem_Produto>
+                                <sku>{$_sku}</sku>
+                                <Url_Imagem>{$Url_Imagem}</Url_Imagem>
+                                <Url_Imagem2>{$Url_Imagem2}</Url_Imagem2>
+                                <Url_Imagem3>{$Url_Imagem3}</Url_Imagem3>
+                            </urn:Z_Replicacao_Imagem_Produto>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                ";
+
+            $simplexml = new \SimpleXMLElement($xmlstr);
+
+            $input_xml = $simplexml->asXML();
+
+            $logger->info("Enviado ao SAP: " . $input_xml);
+
+            //setting the curl parameters.
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url_images);
+            // Following line is compulsary to add as it is:
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $input_xml);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: text/xml"]);
+            curl_setopt($ch, CURLOPT_POST, 1);
+
+            curl_setopt($ch, CURLOPT_USERPWD, $images_login . ":" . $images_pwd);
+
+            // $data = curl_exec($ch);
+            // curl_close($ch);
+
+            // 		if ($data == "")
+            // 		{
+            // 			throw new \Exception('Erro na comunicação com repositório de imagens.');
+            // 		}
+
+            $logger->info("Resposta SAP: " . $data);
         }
 
-        $logger = $objectManager->create("\Psr\Log\LoggerInterface");
 
-        $Url_Imagem = isset($imageUrls[0]) ? $imageUrls[0] : "";
-        $Url_Imagem2 = isset($imageUrls[1]) ? $imageUrls[1] : "";
-        $Url_Imagem3 = isset($imageUrls[2]) ? $imageUrls[2] : "";
-
-        $xmlstr = "<?xml version='1.0' encoding='UTF-8'?>
-					<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sap-com:document:sap:rfc:functions\">
-					<soapenv:Header/>
-					<soapenv:Body>
-							<urn:Z_Replicacao_Imagem_Produto>
-								<sku>{$_sku}</sku>
-								<Url_Imagem>{$Url_Imagem}</Url_Imagem>
-								<Url_Imagem2>{$Url_Imagem2}</Url_Imagem2>
-								<Url_Imagem3>{$Url_Imagem3}</Url_Imagem3>
-							</urn:Z_Replicacao_Imagem_Produto>
-					</soapenv:Body>
-				</soapenv:Envelope>
-            ";
-
-        $simplexml = new \SimpleXMLElement($xmlstr);
-
-        $input_xml = $simplexml->asXML();
-
-        $logger->info("Enviado ao SAP: " . $input_xml);
-
-        //setting the curl parameters.
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url_images);
-        // Following line is compulsary to add as it is:
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $input_xml);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 300);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: text/xml"]);
-        curl_setopt($ch, CURLOPT_POST, 1);
-
-        curl_setopt($ch, CURLOPT_USERPWD, $images_login . ":" . $images_pwd);
-
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-				if ($data == "")
-				{
-					throw new \Exception('Erro na comunicação com repositório de imagens.');
-				}
-
-        $logger->info("Resposta SAP: " . $data);
 
         // Pega o token da sessão
         $token = $this->catalogSession->getToken();
