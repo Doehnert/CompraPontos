@@ -10,9 +10,9 @@
                 type="Vexpro\CompraPontos\Plugin\OrderRepositoryPlugin" />
     </type>
 
-   <type name="Magento\Payment\Model\MethodList">
+   <!-- <type name="Magento\Payment\Model\MethodList">
         <plugin name="add_new_attribute_to_quote_data" type="Vexpro\CompraPontos\Model\DefaultConfigProviderPlugin" />
-    </type>
+    </type> -->
 
     <type name="Magento\Framework\Console\CommandList">
        <arguments>
