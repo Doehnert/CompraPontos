@@ -44,24 +44,24 @@
                                                         </item>
 
                                                         <!-- Component for used seed points -->
-                                                        <item name="used-points" xsi:type="array">
+                                                        <!-- <item name="used-points" xsi:type="array">
                                                             <item name="component" xsi:type="string">Vexpro_CompraPontos/js/view/summary/used-points</item>
                                                             <item name="config" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">2</item>
                                                                 <item name="title" xsi:type="string" translate="true">Resgate (SD)</item>
                                                             </item>
-                                                        </item>
+                                                        </item> -->
 
 
                                                         <!-- Component for total discount -->
 
-                                                        <item name="desconto" xsi:type="array">
+                                                        <!-- <item name="desconto" xsi:type="array">
                                                             <item name="component" xsi:type="string">Vexpro_CompraPontos/js/view/summary/desconto</item>
                                                             <item name="config" xsi:type="array">
                                                                 <item name="sortOrder" xsi:type="string">3</item>
                                                                 <item name="title" xsi:type="string" translate="true">Desconto (SD$)</item>
                                                             </item>
-                                                        </item>
+                                                        </item> -->
 
                                                     </item>
                                                 </item>
