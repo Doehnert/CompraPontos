@@ -1,4 +1,5 @@
 <?php
+
 namespace Vexpro\CompraPontos\Observer;
 
 use Magento\Framework\App\PageCache\Version;
@@ -84,8 +85,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
         // INTEGRAÇÃO DE IMAGENS DOS PRODUTOS
 
         // VERIFICA SE O PRODUTO TEM ORIGEM SAP
-        if ($_origem == 1)
-        {
+        if ($_origem == 1) {
             $url_images = $this->scopeConfig->getValue(
                 "acessos/general/images_url",
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -152,7 +152,7 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
             // 			throw new \Exception('Erro na comunicação com repositório de imagens.');
             // 		}
 
-            $logger->info("Resposta SAP: " . $data);
+            // $logger->info("Resposta SAP: " . $data);
         }
 
 
@@ -202,6 +202,8 @@ class Productsaveafter implements \Magento\Framework\Event\ObserverInterface
                 ];
 
                 $data_json = json_encode($params);
+
+                // $logger->info("Enviado ao Germini: " . $data_json);
 
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
